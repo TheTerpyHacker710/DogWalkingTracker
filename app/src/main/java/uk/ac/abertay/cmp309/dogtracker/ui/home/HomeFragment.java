@@ -16,6 +16,7 @@ import uk.ac.abertay.cmp309.dogtracker.R;
 
 public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //TODO: Fix this
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
     }
