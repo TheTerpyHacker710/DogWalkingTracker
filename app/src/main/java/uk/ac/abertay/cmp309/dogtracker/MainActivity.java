@@ -8,6 +8,8 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -22,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    //TODO: Created firebase stuff but still need to implement
+    // Try and watch YoutTube video to figure it out
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
