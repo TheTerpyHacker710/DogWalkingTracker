@@ -3,18 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
-    </group>
+
+    <item android:title="Home">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_home"
+                    android:icon="@drawable/ic_home"
+                    android:title="@string/menu_home" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Navigation">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_walk"
+                    android:icon="@drawable/ic_walk"
+                    android:title="@string/menu_walk" />
+                <item
+                    android:id="@+id/nav_eat"
+                    android:icon="@drawable/ic_eat"
+                    android:title="@string/menu_eat" />
+                <item
+                    android:id="@+id/nav_train"
+                    android:icon="@drawable/ic_train"
+                    android:title="@string/menu_train" />
+                <item
+                    android:id="@+id/nav_vet"
+                    android:icon="@drawable/ic_vets"
+                    android:title="@string/menu_vet" />
+                <item
+                    android:id="@+id/nav_health"
+                    android:icon="@drawable/ic_health"
+                    android:title="@string/menu_health" />
+                <item
+                    android:id="@+id/nav_groom"
+                    android:icon="@drawable/ic_groom"
+                    android:title="@string/menu_groom" />
+                <item
+                    android:id="@+id/nav_insurance"
+                    android:icon="@drawable/ic_insurance"
+                    android:title="@string/menu_insurance" />
+            </group>
+        </menu>
+    </item>
 </menu>

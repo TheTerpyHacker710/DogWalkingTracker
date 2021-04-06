@@ -1,4 +1,4 @@
-package uk.ac.abertay.cmp309.dogtracker.ui.slideshow;
+package uk.ac.abertay.cmp309.dogtracker.ui.health;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import uk.ac.abertay.cmp309.dogtracker.R;
 
-public class SlideshowFragment extends Fragment {
+public class HealthFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private HealthViewModel healthViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        healthViewModel =
+                new ViewModelProvider(this).get(HealthViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_health, container, false);
+        final TextView textView = root.findViewById(R.id.text_health);
+        healthViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

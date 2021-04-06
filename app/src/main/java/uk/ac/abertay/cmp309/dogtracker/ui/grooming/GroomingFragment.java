@@ -1,4 +1,4 @@
-package uk.ac.abertay.cmp309.dogtracker.ui.gallery;
+package uk.ac.abertay.cmp309.dogtracker.ui.grooming;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import uk.ac.abertay.cmp309.dogtracker.R;
 
-public class GalleryFragment extends Fragment {
+public class GroomingFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private GroomingViewModel groomingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        groomingViewModel =
+                new ViewModelProvider(this).get(GroomingViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_grooming, container, false);
+        final TextView textView = root.findViewById(R.id.text_grooming);
+        groomingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

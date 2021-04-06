@@ -12,14 +12,44 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="uk.ac.abertay.cmp309.dogtracker.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_walk"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.walking.WalkingFragment"
+        android:label="@string/menu_walk"
+        tools:layout="@layout/fragment_walking" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="uk.ac.abertay.cmp309.dogtracker.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_eat"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.eating.EatingFragment"
+        android:label="@string/menu_eat"
+        tools:layout="@layout/fragment_eating" />
+
+    <fragment
+        android:id="@+id/nav_train"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.training.TrainingFragment"
+        android:label="@string/menu_train"
+        tools:layout="@layout/fragment_training" />
+
+    <fragment
+        android:id="@+id/nav_vet"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.vets.VetsFragment"
+        android:label="@string/menu_vet"
+        tools:layout="@layout/fragment_vets" />
+
+    <fragment
+        android:id="@+id/nav_health"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.health.HealthFragment"
+        android:label="@string/menu_health"
+        tools:layout="@layout/fragment_health" />
+
+    <fragment
+        android:id="@+id/nav_groom"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.grooming.GroomingFragment"
+        android:label="@string/menu_groom"
+        tools:layout="@layout/fragment_grooming" />
+
+    <fragment
+        android:id="@+id/nav_insurance"
+        android:name="uk.ac.abertay.cmp309.dogtracker.ui.insurance.InsuranceFragment"
+        android:label="@string/menu_insurance"
+        tools:layout="@layout/fragment_insurance" />
 </navigation>

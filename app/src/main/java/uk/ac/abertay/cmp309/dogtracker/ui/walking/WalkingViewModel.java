@@ -1,16 +1,16 @@
-package uk.ac.abertay.cmp309.dogtracker.ui.gallery;
+package uk.ac.abertay.cmp309.dogtracker.ui.walking;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class WalkingViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public WalkingViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is walking fragment");
     }
 
     public LiveData<String> getText() {
