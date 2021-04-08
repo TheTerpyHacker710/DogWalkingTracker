@@ -12,7 +12,7 @@ public class AuthActivity extends AppCompatActivity {
 
 
     //TODO: Stopped here with little to nothing done with auth
-    // firebase console is set up, but still needs set up, watch YouTube video
+    // firebase console is set up, but still needs set up, watch YouTube video https://firebase.google.com/docs/auth/android/phone-auth Check out this link for setting up phone number
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     //TODO: Created firebase stuff but still need to implement
-    // Try and watch YoutTube video to figure it out
+    // Try and watch YoutTube video to figure it out https://firebase.google.com/docs/auth/android/phone-auth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
