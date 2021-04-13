@@ -2,7 +2,10 @@ package uk.ac.abertay.cmp309.dogtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -10,9 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class AuthActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
-
-    //TODO: Stopped here with little to nothing done with auth
-    // firebase console is set up, but still needs set up, watch YouTube video https://firebase.google.com/docs/auth/android/phone-auth Check out this link for setting up phone number
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +24,18 @@ public class AuthActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+    }
+
+    public void handleClicks(View view) {
+        switch(view.getId()) {
+            case R.id.signInButton:
+                Toast.makeText(this, "Signed In!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.signUpLink:
+                Toast.makeText(this, "Sign Up", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, RegisterAuthActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
