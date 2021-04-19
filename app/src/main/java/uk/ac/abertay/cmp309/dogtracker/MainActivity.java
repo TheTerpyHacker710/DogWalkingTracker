@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,12 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    private final int SIGN_IN_CODE = 9;
-
-    //TODO: Created firebase stuff but still need to implement
-    // Try and watch YoutTube video to figure it out https://firebase.google.com/docs/auth/android/phone-auth
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +49,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        //TODO: If the user is not already signed in, then take to sign in page, else, continue
+        //If the user is not already signed in, then take to sign in page, else, continue
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser == null) {
             Intent intent = new Intent(this, AuthActivity.class);
-            startActivityForResult(intent, SIGN_IN_CODE);
+            startActivity(intent);
+        }
+        else {
+            updateUI(currentUser);
         }
     }
 
@@ -87,5 +87,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void updateUI(FirebaseUser user) {
+        Toast.makeText(this, "The UI will be updated! The user is: " + user.getUid(), Toast.LENGTH_SHORT).show();
     }
 }
