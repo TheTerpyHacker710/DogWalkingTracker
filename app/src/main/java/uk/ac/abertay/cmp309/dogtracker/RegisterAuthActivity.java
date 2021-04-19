@@ -49,8 +49,7 @@ public class RegisterAuthActivity extends AppCompatActivity {
                 createAccount(email, password, rePassword);
                 break;
             case R.id.signInLink:
-                Intent intent = new Intent(this, AuthActivity.class);
-                startActivity(intent);
+                finish();
                 break;
         }
     }

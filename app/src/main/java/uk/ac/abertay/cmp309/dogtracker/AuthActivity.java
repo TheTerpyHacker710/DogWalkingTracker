@@ -1,10 +1,7 @@
 package uk.ac.abertay.cmp309.dogtracker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -57,8 +51,10 @@ public class AuthActivity extends AppCompatActivity {
         if(Utils.validateEmail(email) && Utils.validatePassword(password)) {
             Toast.makeText(this, "Credentials validated", Toast.LENGTH_SHORT).show();
 
+            Log.i(Utils.TAG, "About to sign in");
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
+                        Log.i(Utils.TAG, "is task successful");
                         if(task.isSuccessful()) {
                             //sign in success, update UI
                             Log.d(Utils.TAG, "signInWithEmail:success");
