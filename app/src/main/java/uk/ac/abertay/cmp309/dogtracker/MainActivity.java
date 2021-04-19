@@ -2,18 +2,17 @@ package uk.ac.abertay.cmp309.dogtracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -91,5 +90,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         Toast.makeText(this, "The UI will be updated! The user is: " + user.getUid(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_signout:
+                Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
+                mAuth.signOut();
+                this.recreate();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -1,7 +1,16 @@
 package uk.ac.abertay.cmp309.dogtracker;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +26,7 @@ public class Utils {
         return matcher.matches();
     }
 
-    public static boolean validatePassword(String password, String rePassword){
+    public static boolean validatePasswordRegister(String password, String rePassword){
         if(password.equals(rePassword)) {
             Pattern pattern = Pattern.compile(regexPassword);
             Matcher matcher = pattern.matcher(password);
@@ -27,5 +36,12 @@ public class Utils {
         else {
             return false;
         }
+    }
+
+    public static boolean validatePassword(String password){
+        Pattern pattern = Pattern.compile(regexPassword);
+        Matcher matcher = pattern.matcher(password);
+        Log.i(TAG, "MATCHES and Meets criteria");
+        return matcher.matches();
     }
 }

@@ -36,9 +36,6 @@ public class RegisterAuthActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("user", currentUser);
-            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
     }
@@ -61,7 +58,7 @@ public class RegisterAuthActivity extends AppCompatActivity {
     private void createAccount(String email, String password, String rePassword) {
 
         //TODO: Register User
-        if(Utils.validateEmail(email) && Utils.validatePassword(password, rePassword)) {
+        if(Utils.validateEmail(email) && Utils.validatePasswordRegister(password, rePassword)) {
             Toast.makeText(this, "User Would Be Registered", Toast.LENGTH_SHORT).show();
 
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -71,10 +68,6 @@ public class RegisterAuthActivity extends AppCompatActivity {
                             if(task.isSuccessful()) {
                                 //Sign in success, update UI with signed in user's info
                                 Log.d(Utils.TAG, "User Created");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra("user", user);
-                                setResult(Activity.RESULT_OK, resultIntent);
                                 finish();
                             }
                         }
