@@ -25,7 +25,6 @@ public class Utils {
         if(password.equals(rePassword)) {
             Pattern pattern = Pattern.compile(regexPassword);
             Matcher matcher = pattern.matcher(password);
-            Log.i(TAG, "MATCHES and Meets criteria");
             return matcher.matches();
         }
         else {
@@ -36,7 +35,6 @@ public class Utils {
     public static boolean validatePassword(String password){
         Pattern pattern = Pattern.compile(regexPassword);
         Matcher matcher = pattern.matcher(password);
-        Log.i(TAG, "MATCHES and Meets criteria");
         return matcher.matches();
     }
 }

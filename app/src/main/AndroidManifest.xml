@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DogTracker">
-        <activity android:name=".RegisterAuthActivity"></activity>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".RegisterAuthActivity" />
         <activity android:name=".AuthActivity" />
         <activity
             android:name=".MainActivity"

@@ -6,16 +6,25 @@
     <string name="nav_header_subtitle">Made by Gordon Deacon (1803716)</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_signout">Sign Out!</string>
+    <string name="home_heading_dog">Your Dog:</string>
+    <string name="dog_profile_heading">Dog\'s Profile</string>
     <string name="sign_in_heading">Sign In</string>
     <string name="sign_up_heading">Sign Up</string>
     <string name="email_heading">Email:</string>
-    <string name="email_placeholder">Please enter your email...</string>
+    <string name="email_placeholder">Please enter your email…</string>
     <string name="password_heading">Password:</string>
-    <string name="password_placeholder">Please enter your password...</string>
-    <string name="re_password_placeholder">Please re-enter your password...</string>
+    <string name="password_placeholder">Please enter your password…</string>
+    <string name="re_password_placeholder">Please re-enter your password…</string>
     <string name="re_password_heading">Re-Enter your password:</string>
+    <string name="dog_name_label">Dog\'s Name:</string>
+    <string name="dog_dob_label">Dog\'s Date of Birth:</string>
+    <string name="dog_calories_meal_label">Dog\'s Calories per Meal:</string>
+    <string name="dog_image_label">Upload image of your dog:</string>
     <string name="sign_in_button">Sign In!</string>
     <string name="sign_up_button">Sign Up!</string>
+    <string name="start_walk_button">Start Walk</string>
+    <string name="button_upload_image">Upload Image</string>
+    <string name="button_update_profile">Update Profile</string>
     <string name="sign_up_link">Don\'t have an account? Sign up!</string>
     <string name="sign_in_link">Already have an account? Sign in!</string>
 
@@ -27,4 +36,18 @@
     <string name="menu_health">Health</string>
     <string name="menu_groom">Grooming</string>
     <string name="menu_insurance">Insurance</string>
+
+    <string name="hours_walked">Total Hours Walked:</string>
+    <string name="hours_walked_today">Total Hours Walked (Today):</string>
+    <string name="hours_trained">Total Hours Trained:</string>
+    <string name="hours_trained_today">Total Hours Trained (Today):</string>
+    <string name="daily_calories">Total Daily Calories:</string>
+    <string name="default_value_for_hours">0.0hrs</string>
+    <string name="default_value_for_calories">0kcal</string>
+    <string name="this_will_be_an_image_of_the_users_dog">This will be an image of the users dog</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="enter_dogs_name">Enter dog\'s name…</string>
+    <string name="enter_dog_s_dob">Enter Dog\'s DOB</string>
+    <string name="enter_calories_per_meal">Enter calories per meal...</string>
+
 </resources>

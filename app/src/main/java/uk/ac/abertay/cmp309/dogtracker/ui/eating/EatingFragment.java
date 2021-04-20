@@ -18,18 +18,11 @@ public class EatingFragment extends Fragment {
 
     private EatingViewModel eatingViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        eatingViewModel =
-                new ViewModelProvider(this).get(EatingViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        eatingViewModel = new ViewModelProvider(this).get(EatingViewModel.class);
         View root = inflater.inflate(R.layout.fragment_eating, container, false);
         final TextView textView = root.findViewById(R.id.text_eating);
-        eatingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        eatingViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(s));
         return root;
     }
 }

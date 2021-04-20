@@ -13,10 +13,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import uk.ac.abertay.cmp309.dogtracker.R;
+import uk.ac.abertay.cmp309.dogtracker.ui.eating.EatingViewModel;
 
 public class HomeFragment extends Fragment {
+
+    private HomeViewModel homeViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //TODO: Fix this
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
     }

@@ -1,15 +1,22 @@
 package uk.ac.abertay.cmp309.dogtracker;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
@@ -28,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    public Boolean profileSet;
+
+    //TODO: Create setting page where user can change user info and dog information
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +70,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AuthActivity.class);
             startActivity(intent);
         }
-        else {
             updateUI(currentUser);
-        }
     }
 
     @Override
@@ -88,19 +96,42 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void updateUI(FirebaseUser user) {
-        Toast.makeText(this, "The UI will be updated! The user is: " + user.getUid(), Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_signout:
-                Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
-                mAuth.signOut();
-                this.recreate();
-            default:
-                return super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.action_signout) {
+            Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+            this.recreate();
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateUI(FirebaseUser user) {
+        DocumentReference docRef = db.collection("users").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()) {
+                        Toast.makeText(MainActivity.this, "Document Data: " + document.get("profileSet"), Toast.LENGTH_SHORT).show();
+                        Log.d(Utils.TAG,"Document data: " + document.getData());
+                        profileSet = ((Boolean) document.get("profileSet"));
+                        if(!profileSet && profileSet != null){
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                    else {
+                        Log.e(Utils.TAG, "Error -- Document does NOT exist");
+                    }
+                }
+                else {
+                    Log.e(Utils.TAG, "Task failed with exception: ", task.getException());
+                }
+            }
+        });
+
+
     }
 }
