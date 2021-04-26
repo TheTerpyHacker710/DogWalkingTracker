@@ -135,30 +135,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         StorageReference storageReference = storage.getReference();
 
-        storageReference.child("images/" + currentUser.getUid() + "/" + "profile.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
+        storageReference.child("images/" + currentUser.getUid() + "/" + "profile.jpg").getDownloadUrl().addOnSuccessListener(uri -> {
 
-                Log.i(Utils.TAG, uri.toString());
+            Log.i(Utils.TAG, uri.toString());
 
-                Map<String, Object> dogDetails = new HashMap<>();
-                dogDetails.put("caloriesPerMeal", caloriesPerMeal);
-                dogDetails.put("dogName", dogName);
-                dogDetails.put("dogAge", dogAge);
-                dogDetails.put("dogPhotoURL", uri.toString());
-                dogDetails.put("profileSet", true);
+            Map<String, Object> dogDetails = new HashMap<>();
+            dogDetails.put("caloriesPerMeal", caloriesPerMeal);
+            dogDetails.put("dogName", dogName);
+            dogDetails.put("dogAge", dogAge);
+            dogDetails.put("dogPhotoURL", uri.toString());
+            dogDetails.put("profileSet", true);
 
-                db.collection("users").document(currentUser.getUid()).update(dogDetails)
-                        .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
-                        .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
+            db.collection("users").document(currentUser.getUid()).update(dogDetails)
+                    .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
+                    .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
 
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //handle errors
-            }
+            finish();
+        }).addOnFailureListener(e -> {
+            //handle errors
         });
 
 

@@ -23,6 +23,8 @@
     <string name="dog_image_label">Upload image of your dog:</string>
     <string name="sign_in_button">Sign In!</string>
     <string name="sign_up_button">Sign Up!</string>
+    <string name="start_walking_button">Start!</string>
+    <string name="finish_walking_button">Finish!</string>
     <string name="start_walk_button">Start Walk</string>
     <string name="button_upload_image">Upload Image</string>
     <string name="button_update_profile">Update Profile</string>
@@ -50,7 +52,9 @@
     <string name="enter_dogs_name">Enter dog\'s name…</string>
     <string name="enter_dogs_age">Age…</string>
     <string name="enter_dog_s_dob">Enter Dog\'s DOB</string>
-    <string name="enter_calories_per_meal">Enter calories per meal...</string>
+    <string name="enter_calories_per_meal">Enter calories per meal…</string>
     <string name="imageofdog">ImageOfDog</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="time_walked">Time Walked</string>
 
 </resources>

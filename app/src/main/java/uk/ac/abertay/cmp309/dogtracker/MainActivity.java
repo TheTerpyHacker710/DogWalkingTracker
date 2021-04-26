@@ -23,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -32,6 +34,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
+
+import uk.ac.abertay.cmp309.dogtracker.ui.walking.WalkingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -138,4 +142,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

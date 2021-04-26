@@ -1,17 +1,20 @@
 package uk.ac.abertay.cmp309.dogtracker.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,14 +29,20 @@ import com.google.firebase.storage.StorageReference;
 import java.io.InputStream;
 
 import uk.ac.abertay.cmp309.dogtracker.DogProfile;
+import uk.ac.abertay.cmp309.dogtracker.MainActivity;
+import uk.ac.abertay.cmp309.dogtracker.MapsActivity;
 import uk.ac.abertay.cmp309.dogtracker.R;
 import uk.ac.abertay.cmp309.dogtracker.ui.eating.EatingViewModel;
+import uk.ac.abertay.cmp309.dogtracker.ui.walking.WalkingFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Home");
+
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -46,7 +55,8 @@ public class HomeFragment extends Fragment {
 
         ImageView imageViewDog = root.findViewById(R.id.imageViewDog);
 
-
+        Button startWalk = ((Button) root.findViewById(R.id.buttonStartWalk));
+        startWalk.setOnClickListener(this);
 
         homeViewModel.getDogProfile().observe(getViewLifecycleOwner(), dogProfile -> {
             if(dogProfile != null) {
@@ -70,4 +80,15 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.buttonStartWalk:
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 }
