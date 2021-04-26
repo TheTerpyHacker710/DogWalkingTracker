@@ -18,10 +18,8 @@ public class HealthFragment extends Fragment {
 
     private HealthViewModel healthViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        healthViewModel =
-                new ViewModelProvider(this).get(HealthViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        healthViewModel = new ViewModelProvider(this).get(HealthViewModel.class);
         View root = inflater.inflate(R.layout.fragment_health, container, false);
         final TextView textView = root.findViewById(R.id.text_health);
         healthViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

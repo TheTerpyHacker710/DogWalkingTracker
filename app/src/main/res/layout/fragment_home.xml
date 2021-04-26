@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/imageViewDog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="126dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/this_will_be_an_image_of_the_users_dog"
         app:layout_constraintEnd_toEndOf="parent"

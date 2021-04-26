@@ -17,6 +17,7 @@
     <string name="re_password_placeholder">Please re-enter your password…</string>
     <string name="re_password_heading">Re-Enter your password:</string>
     <string name="dog_name_label">Dog\'s Name:</string>
+    <string name="dog_age_label">Dog\'s Age:</string>
     <string name="dog_dob_label">Dog\'s Date of Birth:</string>
     <string name="dog_calories_meal_label">Dog\'s Calories per Meal:</string>
     <string name="dog_image_label">Upload image of your dog:</string>
@@ -47,7 +48,9 @@
     <string name="this_will_be_an_image_of_the_users_dog">This will be an image of the users dog</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="enter_dogs_name">Enter dog\'s name…</string>
+    <string name="enter_dogs_age">Age…</string>
     <string name="enter_dog_s_dob">Enter Dog\'s DOB</string>
     <string name="enter_calories_per_meal">Enter calories per meal...</string>
+    <string name="imageofdog">ImageOfDog</string>
 
 </resources>

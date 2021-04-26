@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +31,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -36,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     public Boolean profileSet;
-
-    //TODO: Create setting page where user can change user info and dog information
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AuthActivity.class);
             startActivity(intent);
         }
+        if(currentUser != null) {
             updateUI(currentUser);
+        }
     }
 
     @Override
@@ -108,30 +112,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         DocumentReference docRef = db.collection("users").document(user.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()) {
-                        Toast.makeText(MainActivity.this, "Document Data: " + document.get("profileSet"), Toast.LENGTH_SHORT).show();
-                        Log.d(Utils.TAG,"Document data: " + document.getData());
-                        profileSet = ((Boolean) document.get("profileSet"));
-                        if(!profileSet && profileSet != null){
+        docRef.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                DocumentSnapshot document = task.getResult();
+                if(document.exists()) {
+                    Toast.makeText(MainActivity.this, "Document Data: " + document.get("profileSet"), Toast.LENGTH_SHORT).show();
+                    Log.d(Utils.TAG,"Document data: " + document.getData());
+                    profileSet = ((Boolean) document.get("profileSet"));
+                    try {
+                        if (!profileSet) {
                             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(intent);
                         }
                     }
-                    else {
-                        Log.e(Utils.TAG, "Error -- Document does NOT exist");
+                    catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 else {
-                    Log.e(Utils.TAG, "Task failed with exception: ", task.getException());
+                    Log.e(Utils.TAG, "Error -- Document does NOT exist");
                 }
             }
+            else {
+                Log.e(Utils.TAG, "Task failed with exception: ", task.getException());
+            }
         });
-
-
     }
 }

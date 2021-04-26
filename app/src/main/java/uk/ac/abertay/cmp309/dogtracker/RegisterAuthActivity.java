@@ -84,7 +84,6 @@ public class RegisterAuthActivity extends AppCompatActivity {
                             dogDetails.put("caloriesPerMeal", 0);
                             dogDetails.put("dogName", "");
                             dogDetails.put("dogAge", 0);
-                            dogDetails.put("dogDOB", "");
                             dogDetails.put("dogPhotoURL", "");
                             dogDetails.put("profileSet", false);
 

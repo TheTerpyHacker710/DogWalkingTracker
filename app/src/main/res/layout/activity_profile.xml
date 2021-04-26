@@ -42,30 +42,6 @@
         android:autofillHints="" />
 
     <TextView
-        android:id="@+id/textViewProfileDogsDOB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/dog_dob_label"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProfileDogsName" />
-
-    <EditText
-        android:id="@+id/editTextProfileDogsDob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/enter_dog_s_dob"
-        android:inputType="date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProfileDogsDOB"
-        android:autofillHints="" />
-
-    <TextView
         android:id="@+id/textViewProfileCaloriesPerMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +50,7 @@
         android:text="@string/dog_calories_meal_label"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProfileDogsDob" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProfileDogsName" />
 
     <EditText
         android:id="@+id/editTextProfileCaloriesPerMeal"
@@ -115,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:onClick="handleClicks"
         android:text="@string/button_upload_image"
         app:layout_constraintStart_toEndOf="@+id/textViewImageDescription"
         app:layout_constraintTop_toBottomOf="@+id/textViewProfileImage" />
@@ -124,8 +101,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:onClick="handleClicks"
         android:text="@string/button_update_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewProfileDogsAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/dog_age_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextProfileDogAge"
+        app:layout_constraintStart_toEndOf="@+id/editTextProfileDogsName" />
+
+    <EditText
+        android:id="@+id/editTextProfileDogAge"
+        android:layout_width="82dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="42dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/enter_dogs_age"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextProfileDogsName"
+        app:layout_constraintStart_toEndOf="@+id/editTextProfileDogsName" />
+
+    <ImageView
+        android:id="@+id/imageViewProfileDogUpload"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/imageofdog"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileImage"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
