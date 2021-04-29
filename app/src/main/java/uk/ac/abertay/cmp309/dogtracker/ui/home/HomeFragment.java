@@ -61,11 +61,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         homeViewModel.getDogProfile().observe(getViewLifecycleOwner(), dogProfile -> {
             if(dogProfile != null) {
                 textViewDogName.setText(dogProfile.getDogName());
-                textViewHoursWalked.setText(Integer.toString(dogProfile.getHoursWalked()) + "hrs");
-                textViewHoursWalkedToday.setText(Integer.toString(dogProfile.getHoursWalkedToday()) + "hrs");
-                textViewHoursTrained.setText(Integer.toString(dogProfile.getHoursTrained()) + "hrs");
-                textViewHoursTrainedToday.setText(Integer.toString(dogProfile.getHoursTrainedToday()) + "hrs");
-                textViewDailyCalories.setText(Integer.toString(dogProfile.getDailyCalories())  + "kcal");
+                textViewHoursWalked.setText("" + dogProfile.getHoursWalked() + "hrs");
+                textViewHoursWalkedToday.setText("" + dogProfile.getHoursWalkedToday() + "hrs");
+                textViewHoursTrained.setText("" + dogProfile.getHoursTrained() + "hrs");
+                textViewHoursTrainedToday.setText("" + dogProfile.getHoursTrainedToday() + "hrs");
+                textViewDailyCalories.setText("" + dogProfile.getDailyCalories()  + "kcal");
 
                 Glide.with(this).load(dogProfile.getDogPhotoURL()).into(imageViewDog);
             }
