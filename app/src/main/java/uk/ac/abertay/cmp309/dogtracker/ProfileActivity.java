@@ -152,7 +152,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             finish();
         }).addOnFailureListener(e -> {
-            //handle errors
+            //TODO: handle errors
         });
 
 

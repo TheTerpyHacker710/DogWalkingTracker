@@ -11,10 +11,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Document;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,9 +27,11 @@ public class Utils {
     private static final String regexEmail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"; //OWASP REGEX FOR EMAIL
     private static final String regexPassword = "^(?:(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))(?!.*(.)\\1{2,})[A-Za-z0-9!~<>,;:_=?*+#.\"&§%°()\\|\\[\\]\\-\\$\\^\\@\\/]{5,128}$"; //ADAPTION OF OWASP REGEX FOR PASSWORDS
 
-    private static FirebaseAuth mAuth;
-    private static FirebaseUser user;
-    private static FirebaseFirestore db;
+    private static DecimalFormat df = new DecimalFormat("0.00");
+
+    private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static FirebaseUser user = mAuth.getCurrentUser();
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static boolean validateEmail(String email){
         Pattern pattern = Pattern.compile(regexEmail);
@@ -48,6 +54,20 @@ public class Utils {
         Pattern pattern = Pattern.compile(regexPassword);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    public static void updateHoursWalked(int minutesWalked, int secondsWalked){
+        double hoursWalked;
+
+        if(secondsWalked > 30){ minutesWalked += 1; }
+
+        hoursWalked = (double)minutesWalked / 60;
+
+        Log.i(Utils.TAG, "" + Double.parseDouble(df.format(hoursWalked)));
+
+        db.collection("users").document(user.getUid()).update("hoursWalked", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))))
+                .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
+                .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
     }
 
 }

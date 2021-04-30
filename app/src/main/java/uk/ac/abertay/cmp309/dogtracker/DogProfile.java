@@ -4,7 +4,8 @@ import android.net.Uri;
 
 public class DogProfile {
     String dogName, dogPhotoURL;
-    int caloriesPerMeal, dailyCalories, dogAge, hoursTrained, hoursTrainedToday, hoursWalked, hoursWalkedToday;
+    int caloriesPerMeal, dailyCalories, dogAge;
+    double hoursTrained, hoursTrainedToday, hoursWalked, hoursWalkedToday;
     Boolean profileSet;
 
     public String getDogName(){
@@ -35,33 +36,29 @@ public class DogProfile {
         this.dogAge = dogAge;
     }
 
-    public int getHoursTrained() {
+    public double getHoursTrained() {
         return  hoursTrained;
     }
-    public void setHoursTrained(int hoursTrained) {
+    public void setHoursTrained(double hoursTrained) {
         this.hoursTrained = hoursTrained;
     }
 
-    public int getHoursTrainedToday() {
+    public double getHoursTrainedToday() {
         return hoursTrainedToday;
     }
-    public void setHoursTrainedToday(int hoursTrainedToday) {
-        this.hoursTrainedToday = hoursTrainedToday;
-    }
+    public void setHoursTrainedToday(double hoursTrainedToday) { this.hoursTrainedToday = hoursTrainedToday; }
 
-    public int getHoursWalked() {
+    public double getHoursWalked() {
         return hoursWalked;
     }
-    public void setHoursWalked(int hoursWalked) {
+    public void setHoursWalked(double hoursWalked) {
         this.hoursWalked = hoursWalked;
     }
 
-    public int getHoursWalkedToday() {
+    public double getHoursWalkedToday() {
         return hoursWalkedToday;
     }
-    public void setHoursWalkedToday(int hoursWalkedToday) {
-        this.hoursWalkedToday = hoursWalkedToday;
-    }
+    public void setHoursWalkedToday(double hoursWalkedToday) { this.hoursWalkedToday = hoursWalkedToday; }
 
     public Boolean getProfileSet() {
         return profileSet;

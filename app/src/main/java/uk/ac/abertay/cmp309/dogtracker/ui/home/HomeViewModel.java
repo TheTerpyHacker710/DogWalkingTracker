@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import uk.ac.abertay.cmp309.dogtracker.DogProfile;
 import uk.ac.abertay.cmp309.dogtracker.MainActivity;
@@ -40,7 +43,24 @@ public class HomeViewModel extends ViewModel {
 
         if(user != null) {
             DocumentReference docRef = db.collection("users").document(user.getUid());
-            docRef.get().addOnCompleteListener(task -> {
+            docRef.addSnapshotListener((snapshot, e) -> {
+                if (e != null) {
+                    Log.w(Utils.TAG, "Listen failed.", e);
+                    dogNameMLD.postValue(null);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(Utils.TAG, "Current data: " + snapshot.getData());
+                    DogProfile dogProfile = snapshot.toObject(DogProfile.class);
+                    dogNameMLD.postValue(dogProfile);
+                } else {
+                    Log.d(Utils.TAG, "Current data: null");
+                    dogNameMLD.postValue(null);
+                }
+
+            });
+            /*docRef.get().addOnCompleteListener(task -> {
                 Log.d(Utils.TAG, "Task Complete");
                 if (task.isSuccessful()) {
                     Log.d(Utils.TAG, "Task Successful");
@@ -57,7 +77,7 @@ public class HomeViewModel extends ViewModel {
                     Log.e(Utils.TAG, "Task failed with exception: ", task.getException());
                     dogNameMLD.postValue(null);
                 }
-            });
+            });*/
         }
         else {
             dogNameMLD.postValue(null);

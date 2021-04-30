@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     public Boolean profileSet;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        AlarmHandler alarmHandler = new AlarmHandler(this);
+        alarmHandler.cancelAlarmManager();
+        alarmHandler.setAlarmManager();
     }
 
     @Override
@@ -120,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             if(task.isSuccessful()){
                 DocumentSnapshot document = task.getResult();
                 if(document.exists()) {
-                    Toast.makeText(MainActivity.this, "Document Data: " + document.get("profileSet"), Toast.LENGTH_SHORT).show();
                     Log.d(Utils.TAG,"Document data: " + document.getData());
                     profileSet = ((Boolean) document.get("profileSet"));
                     try {

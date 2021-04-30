@@ -1,8 +1,7 @@
 package uk.ac.abertay.cmp309.dogtracker.ui.home;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,34 +9,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Registry;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.concurrent.atomic.AtomicReference;
 
-import uk.ac.abertay.cmp309.dogtracker.DogProfile;
 import uk.ac.abertay.cmp309.dogtracker.MainActivity;
 import uk.ac.abertay.cmp309.dogtracker.MapsActivity;
 import uk.ac.abertay.cmp309.dogtracker.R;
-import uk.ac.abertay.cmp309.dogtracker.ui.eating.EatingViewModel;
-import uk.ac.abertay.cmp309.dogtracker.ui.walking.WalkingFragment;
+import uk.ac.abertay.cmp309.dogtracker.Utils;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private HomeViewModel homeViewModel;
+    private static final int MAPS_REQUEST = 2;
+    private static DecimalFormat df = new DecimalFormat("0.00");
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -61,10 +54,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         homeViewModel.getDogProfile().observe(getViewLifecycleOwner(), dogProfile -> {
             if(dogProfile != null) {
                 textViewDogName.setText(dogProfile.getDogName());
-                textViewHoursWalked.setText("" + dogProfile.getHoursWalked() + "hrs");
-                textViewHoursWalkedToday.setText("" + dogProfile.getHoursWalkedToday() + "hrs");
-                textViewHoursTrained.setText("" + dogProfile.getHoursTrained() + "hrs");
-                textViewHoursTrainedToday.setText("" + dogProfile.getHoursTrainedToday() + "hrs");
+                textViewHoursWalked.setText("" + df.format(dogProfile.getHoursWalked()) + "hrs");
+                textViewHoursWalkedToday.setText("" + df.format(dogProfile.getHoursWalkedToday()) + "hrs");
+                textViewHoursTrained.setText("" + df.format(dogProfile.getHoursTrained()) + "hrs");
+                textViewHoursTrainedToday.setText("" + df.format(dogProfile.getHoursTrainedToday()) + "hrs");
                 textViewDailyCalories.setText("" + dogProfile.getDailyCalories()  + "kcal");
 
                 Glide.with(this).load(dogProfile.getDogPhotoURL()).into(imageViewDog);
@@ -86,9 +79,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch(view.getId()) {
             case R.id.buttonStartWalk:
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MAPS_REQUEST);
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+
+            case MAPS_REQUEST:
+
+                if(resultCode == Activity.RESULT_OK) {
+
+                    Toast.makeText(getActivity().getApplicationContext(), "Minutes: " + data.getIntExtra("minutes", 0) + " Seconds: " + data.getIntExtra("seconds", 0), Toast.LENGTH_SHORT).show();
+
+                    //TODO: Send data to be updated on Firestore and open Walking
+
+                    Utils.updateHoursWalked(data.getIntExtra("minutes", 0), data.getIntExtra("seconds", 0));
+                }
+
+                break;
+
+        }
+
     }
 
 }

@@ -11,6 +11,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -37,11 +39,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,6 +63,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationCallback locationCallback;
 
     private Marker markerMyLocation;
+    private List<LatLng> points;
+    private Polyline polyline;
+    private boolean recordWalk = false;
 
     private long startTime = 0;
     private long millis = 0;
@@ -137,6 +145,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         double lat = locationResult.getLastLocation().getLatitude();
                         double lng = locationResult.getLastLocation().getLongitude();
                         LatLng myLatLng = new LatLng(lat, lng);
+                        if(recordWalk) {
+                            points.add(myLatLng);
+                            polyline.setPoints(points);
+                        }
                         markerMyLocation.setPosition(myLatLng);
                         mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
@@ -171,13 +183,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        //TODO: ADD POLYLINES TO WHERE USER IS WALKING
         mMap = googleMap;
-        LatLng abertay = new LatLng(56.4633, -2.9739);
-        mMap.addMarker(new MarkerOptions().position(abertay).title("Abertay University"));
-        //mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(abertay));
 
-        markerMyLocation = mMap.addMarker(new MarkerOptions().position(abertay).title("My Position").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        polyline = mMap.addPolyline(new PolylineOptions()
+        .clickable(false));
+
+        points = polyline.getPoints();
+
+        markerMyLocation = mMap.addMarker(new MarkerOptions().position(new LatLng(0,0))
+                .title("My Position")
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+                )
+        );
     }
 
     @Override
@@ -206,20 +225,34 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void handleClicks(View view) {
         switch(view.getId()) {
             case R.id.buttonStartWalking:
-                Toast.makeText(this, "Start Walking", Toast.LENGTH_SHORT).show();
-                if(startButton.getText().equals("Stop!")) {
+                if(startButton.getText().equals("Cancel!")) {
+                    //TODO: ADD POP UP TO ASK USER TO CONFIRM
                     timerHandler.removeCallbacks(timerRunnable);
-                    startButton.setText("Start!");
-                    Toast.makeText(this, "Time is: " + minutes + "min " + seconds + "sec", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else {
+                    Toast.makeText(this, "Start Walking", Toast.LENGTH_SHORT).show();
                     startTime = System.currentTimeMillis();
                     timerHandler.postDelayed(timerRunnable, 0);
-                    startButton.setText("Stop!");
+                    startButton.setText("Cancel!");
+                    recordWalk = true;
                 }
                 break;
             case R.id.buttonFinishWalking:
-                Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
+                if(minutes > 0 || seconds > 0) {
+                    Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
+                    timerHandler.removeCallbacks(timerRunnable);
+                    startButton.setText("Start!");
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("minutes", minutes);
+                    resultIntent.putExtra("seconds", seconds);
+                    //resultIntent.putExtra("polyline", points.toArray());
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(this, "Please start the walk!", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
