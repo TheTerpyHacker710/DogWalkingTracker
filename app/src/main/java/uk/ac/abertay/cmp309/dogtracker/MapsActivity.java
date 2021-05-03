@@ -1,44 +1,29 @@
 package uk.ac.abertay.cmp309.dogtracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.PowerManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,15 +36,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, OnSuccessListener<Location> {
 
@@ -75,6 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<LatLng> points;
     private Polyline polyline;
     private boolean recordWalk = false;
+    private LocationAlarmHandler alarmHandler;
 
     private long startTime = 0;
     private long millis = 0;
@@ -82,8 +62,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int minutes = 0;
 
 
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
+    private Handler timerHandler = new Handler();
+    private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             millis = System.currentTimeMillis() - startTime;
@@ -122,9 +102,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         textViewTimer = (TextView) findViewById(R.id.textViewTimeWalked);
         startButton = (Button) findViewById(R.id.buttonStartWalking);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(locationReciever, new IntentFilter("GPSLocationUpdates"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, new IntentFilter("GPSLocationUpdates"));
 
-        LocationAlarmHandler alarmHandler = new LocationAlarmHandler(this);
+        alarmHandler = new LocationAlarmHandler(this);
         alarmHandler.cancelAlarmManager();
         alarmHandler.setAlarmManager();
     }
@@ -143,18 +123,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
+    public void onBackPressed() {
+        cancelWalk();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onStart() {
         super.onStart();
         mapView.onStart();
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, LOCATION_REQUEST);
         }
         fusedProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedProviderClient.getLastLocation().addOnSuccessListener(this, this);
@@ -201,43 +187,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onLowMemory();
     }
 
-    public void handleClicks(View view) {
-        switch (view.getId()) {
-            case R.id.buttonStartWalking:
-                if (startButton.getText().equals("Cancel!")) {
-                    //TODO: ADD POP UP TO ASK USER TO CONFIRM
-                    timerHandler.removeCallbacks(timerRunnable);
-                    Intent intent = new Intent(this, LocationService.class);
-                    stopService(intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Start Walking", Toast.LENGTH_SHORT).show();
-                    startTime = System.currentTimeMillis();
-                    timerHandler.postDelayed(timerRunnable, 0);
-                    startButton.setText("Cancel!");
-                    recordWalk = true;
-                }
-                break;
-            case R.id.buttonFinishWalking:
-                if (minutes > 0 || seconds > 0) {
-                    Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
-                    timerHandler.removeCallbacks(timerRunnable);
-                    startButton.setText("Start!");
-                    Intent intent = new Intent(this, LocationService.class);
-                    stopService(intent);
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("minutes", minutes);
-                    resultIntent.putExtra("seconds", seconds);
-                    //resultIntent.putExtra("polyline", points.toArray());
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Please start the walk!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
     @Override
     public void onSuccess(Location location) {
         if (location != null) {
@@ -247,6 +196,63 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e(Utils.TAG, "Location Not Found");
         }
     }
+
+    public void handleClicks(View view) {
+        switch (view.getId()) {
+            case R.id.buttonStartWalking:
+                if (startButton.getText().equals("Cancel!")) {
+                    cancelWalk();
+                } else {
+                    startWalk();
+                }
+                break;
+            case R.id.buttonFinishWalking:
+                finishWalk();
+                break;
+        }
+    }
+
+    private void cancelWalk() {
+        //TODO: ADD POP UP TO ASK USER TO CONFIRM
+        timerHandler.removeCallbacks(timerRunnable);
+        alarmHandler.cancelAlarmManager();
+        Intent intent = new Intent(this, LocationService.class);
+        stopService(intent);
+        finish();
+    }
+
+    private void startWalk() {
+        Toast.makeText(this, "Start Walking", Toast.LENGTH_SHORT).show();
+        startTime = System.currentTimeMillis();
+        timerHandler.postDelayed(timerRunnable, 0);
+        startButton.setText("Cancel!");
+        recordWalk = true;
+    }
+
+    private void finishWalk() {
+        if (minutes > 0 || seconds > 0) {
+            //TODO: Save polyline to database
+            Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
+            timerHandler.removeCallbacks(timerRunnable);
+            startButton.setText("Start!");
+            alarmHandler.cancelAlarmManager();
+            Intent intent = new Intent(this, LocationService.class);
+            stopService(intent);
+            //unregisterReceiver(locationReceiver);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("minutes", minutes);
+            resultIntent.putExtra("seconds", seconds);
+            Bundle poly = new Bundle();
+            poly.putSerializable("polyline", (Serializable) points);
+            resultIntent.putExtra("polyline", poly);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        } else {
+            Toast.makeText(this, "Please start the walk!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 
     public void updateMap(Location location) {
@@ -263,7 +269,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
     }
 
-    private BroadcastReceiver locationReciever = new BroadcastReceiver() {
+    private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent

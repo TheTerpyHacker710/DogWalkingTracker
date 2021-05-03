@@ -19,7 +19,7 @@ public class LocationAlarmHandler {
         PendingIntent sender = PendingIntent.getBroadcast(context, 3, intent, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if(am != null) {
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, 0, 1000, sender);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, 5000, 5000 * 12, sender);
         }
     }
 

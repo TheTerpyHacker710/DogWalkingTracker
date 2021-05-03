@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             if(task.isSuccessful()){
                 DocumentSnapshot document = task.getResult();
                 if(document.exists()) {
-                    Log.d(Utils.TAG,"Document data: " + document.getData());
                     profileSet = ((Boolean) document.get("profileSet"));
                     try {
                         if (!profileSet) {

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,7 @@ import org.w3c.dom.Document;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +70,17 @@ public class Utils {
         db.collection("users").document(user.getUid()).update("hoursWalked", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))), "hoursWalkedToday", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))))
                 .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
                 .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
+    }
+
+    public static void updatePolyline(List<LatLng> polyline) {
+        Map<String, Object> dogDetails = new HashMap<>();
+        dogDetails.put("polyline", polyline);
+
+        db.collection("users").document(user.getUid()).collection("polylines").document().set(dogDetails)
+                .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
+                .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
+
+        Log.d(Utils.TAG, "Polyline Created");
     }
 
 }
