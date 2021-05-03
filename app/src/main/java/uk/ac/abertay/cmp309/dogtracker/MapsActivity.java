@@ -73,7 +73,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Marker markerMyLocation;
     private List<LatLng> points;
-    private List<List<LatLng>> listOfLines;
     private Polyline polyline;
     private boolean recordWalk = false;
 
@@ -82,7 +81,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int seconds = 0;
     private int minutes = 0;
 
-    private PowerManager.WakeLock wakeLock;
 
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
@@ -124,14 +122,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         textViewTimer = (TextView) findViewById(R.id.textViewTimeWalked);
         startButton = (Button) findViewById(R.id.buttonStartWalking);
 
-
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLockTag");
-
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReciever, new IntentFilter("GPSLocationUpdates"));
 
-        Intent intent = new Intent(getBaseContext(), LocationService.class);
-        startService(intent);
+        LocationAlarmHandler alarmHandler = new LocationAlarmHandler(this);
+        alarmHandler.cancelAlarmManager();
+        alarmHandler.setAlarmManager();
     }
 
     @Override
@@ -192,8 +187,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onPause() {
         mapView.onPause();
         super.onPause();
-        //timerHandler.removeCallbacks(timerRunnable);
-        //startButton.setText("Start!");
     }
 
     @Override
@@ -230,7 +223,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
                     timerHandler.removeCallbacks(timerRunnable);
                     startButton.setText("Start!");
-                    //listOfLines.add(points);
                     Intent intent = new Intent(this, LocationService.class);
                     stopService(intent);
                     Intent resultIntent = new Intent();

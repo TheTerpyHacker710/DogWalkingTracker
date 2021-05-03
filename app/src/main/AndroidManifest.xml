@@ -53,8 +53,14 @@
         <receiver
             android:name=".ExecutableService"
             android:enabled="true" />
+        <receiver android:name=".LocationExecutableService">
+            <intent-filter>
+                <action android:name="REFRESH_THIS"/>
+            </intent-filter>
+        </receiver>
         <service android:name=".LocationService"
-            android:exported="true"/>
+            android:exported="true"
+            android:enabled="true"/>
     </application>
 
 </manifest>
