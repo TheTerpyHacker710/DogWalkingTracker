@@ -65,7 +65,7 @@ public class Utils {
 
         Log.i(Utils.TAG, "" + Double.parseDouble(df.format(hoursWalked)));
 
-        db.collection("users").document(user.getUid()).update("hoursWalked", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))))
+        db.collection("users").document(user.getUid()).update("hoursWalked", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))), "hoursWalkedToday", FieldValue.increment(Double.parseDouble(df.format(hoursWalked))))
                 .addOnSuccessListener(aVoid -> Log.i(Utils.TAG, "Document Added!"))
                 .addOnFailureListener(e -> Log.e(Utils.TAG, "Error adding document", e));
     }

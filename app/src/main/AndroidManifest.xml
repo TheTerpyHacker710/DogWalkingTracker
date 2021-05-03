@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.ac.abertay.cmp309.dogtracker">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -15,8 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DogTracker">
-        <activity android:name=".MapsActivity"
-            android:theme="@style/Theme.DogTracker.NoActionBar">></activity>
+
+        <activity
+            android:name=".MapsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DogTracker.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -45,8 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ExecutableService"
-            android:enabled="true"/>
+
+        <receiver
+            android:name=".ExecutableService"
+            android:enabled="true" />
+        <service android:name=".LocationService"
+            android:exported="true"/>
     </application>
 
 </manifest>

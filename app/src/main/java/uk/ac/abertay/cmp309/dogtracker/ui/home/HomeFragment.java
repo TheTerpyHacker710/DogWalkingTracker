@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     Toast.makeText(getActivity().getApplicationContext(), "Minutes: " + data.getIntExtra("minutes", 0) + " Seconds: " + data.getIntExtra("seconds", 0), Toast.LENGTH_SHORT).show();
 
-                    //TODO: Send data to be updated on Firestore and open Walking
+                    //TODO: Send data to be updated on Firestore and open Walking Fragment AND STORE POLYLINE
 
                     Utils.updateHoursWalked(data.getIntExtra("minutes", 0), data.getIntExtra("seconds", 0));
                 }
