@@ -9,6 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -54,14 +55,10 @@
         <receiver
             android:name=".ExecutableService"
             android:enabled="true" />
-        <receiver android:name=".LocationExecutableService">
-            <intent-filter>
-                <action android:name="REFRESH_THIS"/>
-            </intent-filter>
-        </receiver>
         <service android:name=".LocationService"
-            android:exported="true"
-            android:enabled="true"/>
+            android:exported="false"
+            android:enabled="true"
+            android:foregroundServiceType="location"/>
     </application>
 
 </manifest>

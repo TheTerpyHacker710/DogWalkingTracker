@@ -2,6 +2,10 @@ package uk.ac.abertay.cmp309.dogtracker;
 
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +15,7 @@ import android.os.IBinder;
 
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -25,8 +30,11 @@ import com.google.android.gms.location.LocationServices;
 
 public class LocationService extends Service {
 
+    private static final String CHANNEL_DEFAULT = "Default Importance";
+    private static final String CHANNEL_ID = "Maps Notification";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
+    private NotificationManager notificationManager;
 
     @Override
     public void onCreate() {
@@ -38,22 +46,49 @@ public class LocationService extends Service {
         }
         Log.i(Utils.TAG, "Getting Provider Client");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        notificationManager = getSystemService(NotificationManager.class);
+        CharSequence name = "Maps Notification";
+        String description = "A channel for maps notification";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        notificationManager.createNotificationChannel(channel);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Intent notificationIntent = new Intent(this, MapsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification = new Notification.Builder(this, CHANNEL_ID)
+                .setContentTitle("Dog Tracker")
+                .setContentText("This app is tracking your location")
+                .setSmallIcon(R.drawable.ic_home)
+                .setContentIntent(pendingIntent)
+                .setTicker("1")
+                .build();
+
+        startForeground(3, notification);
+
         Log.d(Utils.TAG, "service Starting");
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(10);
         locationRequest.setInterval(5);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        Log.d(Utils.TAG, "Sending Results");
 
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 if (locationResult != null) {
                     Log.d(Utils.TAG, locationResult.getLastLocation().toString());
-                    sendLocationToActivity(locationResult.getLastLocation(), "Found");
+                    try{
+                        sendLocationToActivity(locationResult.getLastLocation(), "Found");
+                    }
+                    catch(Exception e) {
+                        Toast.makeText(LocationService.this, "Found Location", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         };
@@ -71,6 +106,7 @@ public class LocationService extends Service {
         if (fusedLocationProviderClient != null && locationCallback != null) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
+        stopForeground(true);
         super.onDestroy();
     }
 

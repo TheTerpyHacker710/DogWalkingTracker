@@ -54,7 +54,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<LatLng> points;
     private Polyline polyline;
     private boolean recordWalk = false;
-    private LocationAlarmHandler alarmHandler;
 
     private long startTime = 0;
     private long millis = 0;
@@ -104,9 +103,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, new IntentFilter("GPSLocationUpdates"));
 
-        alarmHandler = new LocationAlarmHandler(this);
-        alarmHandler.cancelAlarmManager();
-        alarmHandler.setAlarmManager();
+        Intent intent = new Intent(this, LocationService.class);
+        startForegroundService(intent);
     }
 
     @Override
@@ -215,7 +213,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void cancelWalk() {
         //TODO: ADD POP UP TO ASK USER TO CONFIRM
         timerHandler.removeCallbacks(timerRunnable);
-        alarmHandler.cancelAlarmManager();
         Intent intent = new Intent(this, LocationService.class);
         stopService(intent);
         finish();
@@ -235,7 +232,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this, "Finished Walked", Toast.LENGTH_SHORT).show();
             timerHandler.removeCallbacks(timerRunnable);
             startButton.setText("Start!");
-            alarmHandler.cancelAlarmManager();
             Intent intent = new Intent(this, LocationService.class);
             stopService(intent);
             //unregisterReceiver(locationReceiver);

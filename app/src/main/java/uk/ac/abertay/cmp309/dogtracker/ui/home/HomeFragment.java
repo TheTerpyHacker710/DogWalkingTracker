@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +30,8 @@ import uk.ac.abertay.cmp309.dogtracker.MainActivity;
 import uk.ac.abertay.cmp309.dogtracker.MapsActivity;
 import uk.ac.abertay.cmp309.dogtracker.R;
 import uk.ac.abertay.cmp309.dogtracker.Utils;
+import uk.ac.abertay.cmp309.dogtracker.ui.eating.EatingFragment;
+import uk.ac.abertay.cmp309.dogtracker.ui.walking.WalkingFragment;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -99,7 +103,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     Toast.makeText(getActivity().getApplicationContext(), "Minutes: " + data.getIntExtra("minutes", 0) + " Seconds: " + data.getIntExtra("seconds", 0), Toast.LENGTH_SHORT).show();
 
-                    //TODO: Send data to be updated on Firestore and open Walking Fragment AND STORE POLYLINE
+                    //TODO: open Walking Fragment
 
                     Utils.updateHoursWalked(data.getIntExtra("minutes", 0), data.getIntExtra("seconds", 0));
                     Log.i(Utils.TAG, "Added Hours Walked");
@@ -108,8 +112,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     List<LatLng> polyline = (List<LatLng>) poly.getSerializable("polyline");
 
                     Utils.updatePolyline(polyline);
-                }
 
+                }
                 break;
 
         }
