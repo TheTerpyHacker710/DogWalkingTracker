@@ -42,6 +42,8 @@
 
     <string name="hours_walked">Total Hours Walked:</string>
     <string name="hours_walked_today">Total Hours Walked (Today):</string>
+    <string name="distance_walked">Total Distance Walked:</string>
+    <string name="distance_walked_today">Total Distance Walked (Today):</string>
     <string name="hours_trained">Total Hours Trained:</string>
     <string name="hours_trained_today">Total Hours Trained (Today):</string>
     <string name="daily_calories">Total Daily Calories:</string>
@@ -56,5 +58,8 @@
     <string name="imageofdog">ImageOfDog</string>
     <string name="title_activity_maps">Map</string>
     <string name="time_walked">Time Walked</string>
+    <string name="your_walking_stats">Your Walking Stats:</string>
+    <string name="view_routes">View Routes</string>
+    <string name="back">Back</string>
 
 </resources>

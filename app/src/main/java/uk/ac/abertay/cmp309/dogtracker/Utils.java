@@ -1,22 +1,33 @@
 package uk.ac.abertay.cmp309.dogtracker;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +45,7 @@ public class Utils {
     private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static FirebaseUser user = mAuth.getCurrentUser();
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     public static boolean validateEmail(String email){
         Pattern pattern = Pattern.compile(regexEmail);
@@ -73,7 +85,7 @@ public class Utils {
     }
 
     public static void updatePolyline(List<LatLng> polyline) {
-        Map<String, Object> dogDetails = new HashMap<>();
+        Map<String, List<LatLng>> dogDetails = new HashMap<>();
         dogDetails.put("polyline", polyline);
 
         db.collection("users").document(user.getUid()).collection("polylines").document().set(dogDetails)
@@ -83,4 +95,31 @@ public class Utils {
         Log.d(Utils.TAG, "Polyline Created");
     }
 
+
+    public static void getPolylines(Context context) {
+
+        CollectionReference colRef = db.collection("users").document(user.getUid()).collection("polylines");
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        sendPolylineToActivity(document.getData(), context);
+                    }
+                }
+                else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+
+        });
+    }
+
+    private static void sendPolylineToActivity(Map<String, Object> location, Context context) {
+        Intent intent = new Intent("PolylineLocationUpdates");
+        intent.putExtra("Location", (Serializable) location);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 }

@@ -4,15 +4,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.walking.WalkingFragment">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewWalkingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WALKING FRAGMENT"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="@string/your_walking_stats"
+        android:textColor="#191919"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="369dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/buttonWalkingStartWalk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8sp"
+            android:layout_marginEnd="16sp"
+            android:layout_weight="1"
+            android:text="@string/start_walk_button" />
+
+        <Button
+            android:id="@+id/buttonViewRoutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            android:layout_marginEnd="8sp"
+            android:layout_weight="1"
+            android:text="@string/view_routes" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewWalkingTimeWalked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/hours_walked"
+        android:textColor="#E43A3A3A"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingTitle" />
+
+    <TextView
+        android:id="@+id/textViewWalkingTimeWalkedToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/hours_walked_today"
+        android:textColor="#E43A3A3A"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingHoursWalkedValue" />
+
+    <TextView
+        android:id="@+id/textViewWalkingDistanceWalked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/distance_walked"
+        android:textColor="#E43A3A3A"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingHoursWalkedTodayValue" />
+
+    <TextView
+        android:id="@+id/textViewWalkingDistanceWalkedToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/distance_walked_today"
+        android:textColor="#E43A3A3A"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingDistanceWalkedValue" />
+
+    <TextView
+        android:id="@+id/textViewWalkingHoursWalkedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#5A5A5A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingTimeWalked" />
+
+    <TextView
+        android:id="@+id/textViewWalkingHoursWalkedTodayValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#5A5A5A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingTimeWalkedToday" />
+
+    <TextView
+        android:id="@+id/textViewWalkingDistanceWalkedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#5A5A5A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingDistanceWalked" />
+
+    <TextView
+        android:id="@+id/textViewWalkingDistanceWalkedTodayValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#5A5A5A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWalkingDistanceWalkedToday" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

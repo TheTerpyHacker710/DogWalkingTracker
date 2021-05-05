@@ -48,24 +48,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView textViewTimer;
     private Button startButton;
 
-    private FusedLocationProviderClient fusedProviderClient;
-
     private Marker markerMyLocation;
     private List<LatLng> points;
     private Polyline polyline;
     private boolean recordWalk = false;
 
     private long startTime = 0;
-    private long millis = 0;
     private int seconds = 0;
     private int minutes = 0;
 
 
-    private Handler timerHandler = new Handler();
-    private Runnable timerRunnable = new Runnable() {
+    private final Handler timerHandler = new Handler();
+    private final Runnable timerRunnable = new Runnable() {
+        @SuppressLint("DefaultLocale")
         @Override
         public void run() {
-            millis = System.currentTimeMillis() - startTime;
+            long millis = System.currentTimeMillis() - startTime;
             seconds = (int) (millis / 1000);
             minutes = seconds / 60;
             seconds = seconds % 60;
@@ -79,10 +77,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    public MapsActivity() {
-    }
-
-    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,7 +134,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, LOCATION_REQUEST);
         }
-        fusedProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient fusedProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedProviderClient.getLastLocation().addOnSuccessListener(this, this);
     }
 
@@ -195,6 +189,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void handleClicks(View view) {
         switch (view.getId()) {
             case R.id.buttonStartWalking:
@@ -210,6 +205,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    //TODO: Unregister receiver
     private void cancelWalk() {
         //TODO: ADD POP UP TO ASK USER TO CONFIRM
         timerHandler.removeCallbacks(timerRunnable);
@@ -256,6 +252,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.i(Utils.TAG, "Updating Map");
                 if (recordWalk) {
                     points.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                    Log.i(Utils.TAG, points.toString());
                     polyline.setPoints(points);
                 }
                 Log.i(Utils.TAG, "LatLng: " + new LatLng(location.getLatitude(), location.getLongitude()));

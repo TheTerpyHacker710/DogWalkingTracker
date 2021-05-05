@@ -5,6 +5,7 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -36,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="DogName"
         android:textColor="#4E4E4E"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:onClick="handleClicks"
         android:text="@string/start_walk_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="@string/hours_trained"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonStartWalk"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +72,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginBottom="15dp"
         android:text="@string/hours_walked_today"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewHoursTrained"
         app:layout_constraintStart_toStartOf="parent" />
@@ -83,6 +84,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginBottom="15dp"
         android:text="@string/hours_walked"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewHoursWalkedToday"
         app:layout_constraintStart_toStartOf="parent" />
@@ -94,6 +96,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:text="@string/hours_trained_today"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrained" />
@@ -105,6 +108,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:text="@string/daily_calories"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedToday" />
@@ -115,6 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
         android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonStartWalk"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +132,7 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="15dp"
         android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewHoursTrainedValue"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -138,6 +144,7 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="15dp"
         android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewHoursWalkedTodayValue"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -149,6 +156,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedValue" />
@@ -160,6 +168,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:text="@string/default_value_for_calories"
+        android:textColor="#4E4E4E"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedTodayValue" />
