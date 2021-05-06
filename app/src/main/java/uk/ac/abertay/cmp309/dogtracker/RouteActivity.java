@@ -50,19 +50,11 @@ public class RouteActivity extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     private TextView textViewHoursWalked;
     private TextView textViewDistanceWalked;
-    private Button buttonBack;
 
-    private WalkingViewModel walkingViewModel;
-
-    private DecimalFormat df = new DecimalFormat("0.00");
-
-    private Polyline polylineMap;
-
-    private List<LatLng> polylinePoints;
+    private final DecimalFormat df = new DecimalFormat("0.00");
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
-    //TODO: Get polylines from firestore and display on the map!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +73,10 @@ public class RouteActivity extends AppCompatActivity implements OnMapReadyCallba
 
         textViewHoursWalked = (TextView) findViewById(R.id.textViewHoursWalkedTodayRoutesValue);
         textViewDistanceWalked = (TextView) findViewById(R.id.textViewDistanceWalkedTodayRoutesValue);
-        buttonBack = (Button) findViewById(R.id.buttonBackFromRoutes);
+        Button buttonBack = (Button) findViewById(R.id.buttonBackFromRoutes);
         buttonBack.setOnClickListener(this);
 
-        walkingViewModel = new ViewModelProvider(this).get(WalkingViewModel.class);
+        WalkingViewModel walkingViewModel = new ViewModelProvider(this).get(WalkingViewModel.class);
 
         walkingViewModel.getDogProfile().observe(this, dogProfile -> {
             if(dogProfile != null) {
@@ -143,11 +135,6 @@ public class RouteActivity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Utils.getPolylines(this);
-
-        polylineMap = mMap.addPolyline(new PolylineOptions()
-                .clickable(false));
-
-        polylinePoints = polylineMap.getPoints();
     }
 
     @Override
@@ -197,9 +184,11 @@ public class RouteActivity extends AppCompatActivity implements OnMapReadyCallba
     private final BroadcastReceiver polylineReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             // Get extra data included in the Intent
             Log.i(Utils.TAG, "Getting Polyline");
-            //Bundle b = intent.getBundleExtra("Location");
+            Polyline polyInit = createPolyline();
+            List<LatLng> polylinePoints = polyInit.getPoints();
             Map<String, List<Map>> polyline = (Map<String, List<Map>>) intent.getSerializableExtra("Location");
             if(polyline != null) {
                 List<Map> polylines = (List<Map>) polyline.get("polyline");
@@ -216,6 +205,12 @@ public class RouteActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void updatePolyline(List<LatLng> polyline) {
         Log.i(Utils.TAG, polyline.toString());
+        Polyline polylineMap = createPolyline();
         polylineMap.setPoints(polyline);
+    }
+
+    private Polyline createPolyline() {
+        return mMap.addPolyline(new PolylineOptions()
+                .clickable(false));
     }
 }
