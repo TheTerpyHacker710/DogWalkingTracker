@@ -2,6 +2,174 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"/>
+    android:background="#FFFFFF"
+    tools:context=".ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/homeMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/home_heading_dog"
+        android:textColor="#3C3C3C"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewDog"
+        android:layout_width="125dp"
+        android:layout_height="126dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/this_will_be_an_image_of_the_users_dog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeMainTitle"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewDogName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#4E4E4E"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDog" />
+
+    <Button
+        android:id="@+id/buttonStartWalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="@string/start_walk_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHoursTrained"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="@string/hours_trained"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStartWalk"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDogName" />
+
+    <TextView
+        android:id="@+id/textViewHoursWalkedToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/hours_walked_today"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewHoursTrained"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHoursWalked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/hours_walked"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewHoursWalkedToday"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHoursTrainedToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/hours_trained_today"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrained" />
+
+    <TextView
+        android:id="@+id/textViewDailyCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/daily_calories"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedToday" />
+
+    <TextView
+        android:id="@+id/textViewHoursTrainedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStartWalk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDogName" />
+
+    <TextView
+        android:id="@+id/textViewHoursWalkedTodayValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewHoursTrainedValue"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHoursWalkedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewHoursWalkedTodayValue"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHoursTrainedTodayValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/default_value_for_hours"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedValue" />
+
+    <TextView
+        android:id="@+id/textViewDailyCaloriesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/default_value_for_calories"
+        android:textColor="#4E4E4E"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHoursTrainedTodayValue" />
+</androidx.constraintlayout.widget.ConstraintLayout>
