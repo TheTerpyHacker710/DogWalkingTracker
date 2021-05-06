@@ -14,22 +14,27 @@ import androidx.lifecycle.ViewModelProvider;
 
 import uk.ac.abertay.cmp309.dogtracker.R;
 
+//This is a controller for the vets fragment
+//this will control all of the data that is displayed in the vets fragment
 public class VetsFragment extends Fragment {
 
+    //Declare the model that will be used
     private VetsViewModel vetsViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        vetsViewModel =
-                new ViewModelProvider(this).get(VetsViewModel.class);
+    //On Create -- This will run when the view is created
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //Initialise the model
+        vetsViewModel = new ViewModelProvider(this).get(VetsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_vets, container, false);
+
+        //Get the text view on the fragment
         final TextView textView = root.findViewById(R.id.text_vets);
-        vetsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        //Retrieve text from model and insert into textView
+        vetsViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(s));
+
+        //Return the view
         return root;
     }
 }
